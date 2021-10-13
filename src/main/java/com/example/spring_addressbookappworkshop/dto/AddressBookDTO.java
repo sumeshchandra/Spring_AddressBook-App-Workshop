@@ -10,8 +10,9 @@ import lombok.Data;
 
 @Data
 public class AddressBookDTO {
+
     public String firstName;
     public String lastName;
-    public int pincode;
+    public double phoneNumber;
 
 }
