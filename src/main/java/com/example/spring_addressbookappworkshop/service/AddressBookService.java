@@ -10,33 +10,38 @@ import java.util.List;
 @Service
 public class AddressBookService implements IAddressBookService {
 
+    private List<AddressBookData> addressBookList = new ArrayList<>();
+
     @Override
     public List<AddressBookData> getAddressBookData() {
-        List<AddressBookData> addressBookList = new ArrayList<AddressBookData>();
-        addressBookList.add(new AddressBookData(1, new AddressBookDTO("Sumesh", "Jena", "Rourkela", "Odisha", 987654321)));
         return addressBookList;
     }
 
     @Override
     public AddressBookData getAddressBookDataById(int personId) {
-        AddressBookData addressBookData = new AddressBookData(personId, new AddressBookDTO("Sumesh", "Jena", "Rourkela", "Odisha", 987654321));
-        return addressBookData;
+       return addressBookList.get(personId -1);
     }
 
     @Override
     public AddressBookData createAddressBook(AddressBookDTO addressBookDTO) {
-        AddressBookData addressBookData = new AddressBookData(3, addressBookDTO);
+        AddressBookData addressBookData;
+        addressBookData = new AddressBookData(addressBookList.size() + 1, addressBookDTO);
+        addressBookList.add(addressBookData);
         return addressBookData;
     }
 
     @Override
-    public AddressBookData updateData(AddressBookDTO addressBookDTO) {
-        AddressBookData addressBookData = new AddressBookData(3, addressBookDTO);
+    public AddressBookData updateData(int personId, AddressBookDTO addressBookDTO) {
+        AddressBookData addressBookData = this.getAddressBookDataById(personId);
+        addressBookData.setFirstName(addressBookDTO.firstName);
+        addressBookData.setFirstName(addressBookDTO.lastName);;
+        addressBookList.set(personId - 1, addressBookData);
         return addressBookData;
     }
 
     @Override
     public void deleteDataById(int personId) {
+            addressBookList.remove(personId - 1);
+        }
 
     }
-}
