@@ -3,9 +3,15 @@ package com.example.spring_addressbookappworkshop.controller;
 import com.example.spring_addressbookappworkshop.dto.AddressBookDTO;
 import com.example.spring_addressbookappworkshop.dto.ResponseDTO;
 import com.example.spring_addressbookappworkshop.model.AddressBookData;
+import com.example.spring_addressbookappworkshop.service.AddressBookService;
+import com.example.spring_addressbookappworkshop.service.IAddressBookService;
+import org.apache.catalina.LifecycleState;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -18,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/addressBookService")
 public class AddressBookController {
 
+    @Autowired
+    private IAddressBookService addressBookService;
 
     /**
      * @return ResponseEntity for getting data
@@ -25,8 +33,8 @@ public class AddressBookController {
 
     @RequestMapping({"/get", "/"})
     public ResponseEntity<ResponseDTO> getAddressBookData() {
-        AddressBookData addressBookData = null;
-        addressBookData = new AddressBookData(1, new AddressBookDTO("Sumesh", "Jena", "Rourkela", "Odisha", 987654321));
+        List<AddressBookData> addressBookData = null;
+        addressBookData = addressBookService.getAddressBookData();
         ResponseDTO responseDTO = new ResponseDTO("Get Success Call", addressBookData);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
@@ -37,7 +45,7 @@ public class AddressBookController {
     @GetMapping("/get/{Id}")
     public ResponseEntity<ResponseDTO> getAddressBookDataById(@PathVariable("Id") int Id) {
         AddressBookData addressBookData = null;
-        addressBookData = new AddressBookData(Id, new AddressBookDTO("Sumesh", "Jena", "Rourkela", "Odisha", 987654321));
+        addressBookData = addressBookService.getAddressBookDataById(Id);
         ResponseDTO responseDTO = new ResponseDTO("Get successful for id : ", addressBookData);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 
@@ -49,7 +57,7 @@ public class AddressBookController {
     @PostMapping("/createPost")
     public ResponseEntity<ResponseDTO> createAddressBook(@RequestBody AddressBookDTO addressBookDTO) {
         AddressBookData addressBookData = null;
-        addressBookData = new AddressBookData(3, addressBookDTO);
+        addressBookData = addressBookService.createAddressBook(addressBookDTO);
         ResponseDTO responseDTO = new ResponseDTO("Created new contact ", addressBookData);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 
@@ -61,7 +69,7 @@ public class AddressBookController {
     @PutMapping("/updatePut/{ID}")
     public ResponseEntity<ResponseDTO> updateData(@PathVariable(value = "ID") int ID, @RequestBody AddressBookDTO addressBookDTO) {
         AddressBookData addressBookData = null;
-        addressBookData = new AddressBookData(ID, addressBookDTO);
+        addressBookData = addressBookService.updateData(addressBookDTO);
         ResponseDTO responseDTO = new ResponseDTO("Updated Data successful : ", addressBookData);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
