@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -55,7 +56,7 @@ public class AddressBookController {
      * @return ResponseEntity for getting data
      */
     @PostMapping("/createPost")
-    public ResponseEntity<ResponseDTO> createAddressBook(@RequestBody AddressBookDTO addressBookDTO) {
+    public ResponseEntity<ResponseDTO> createAddressBook(@Valid @RequestBody AddressBookDTO addressBookDTO) {
         AddressBookData addressBookData = null;
         addressBookData = addressBookService.createAddressBook(addressBookDTO);
         ResponseDTO responseDTO = new ResponseDTO("Created new contact ", addressBookData);
@@ -67,7 +68,7 @@ public class AddressBookController {
      * @return ResponseEntity for getting updated data
      */
     @PutMapping("/updatePut/{ID}")
-    public ResponseEntity<ResponseDTO> updateData(@PathVariable(value = "ID") int ID, @RequestBody AddressBookDTO addressBookDTO) {
+    public ResponseEntity<ResponseDTO> updateData(@PathVariable(value = "ID") int ID,@Valid @RequestBody AddressBookDTO addressBookDTO) {
         AddressBookData addressBookData = null;
         addressBookData = addressBookService.updateData(ID,addressBookDTO);
         ResponseDTO responseDTO = new ResponseDTO("Updated Data successful : ", addressBookData);
