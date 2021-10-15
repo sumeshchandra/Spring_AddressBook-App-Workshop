@@ -24,17 +24,13 @@ public class AddressBookData {
     private double phoneNumber;
 
 
-//    public AddressBookData(int id, String firstName, String lastName, String city, String state, double phoneNumber) {
-//
-//    }
-
     public AddressBookData(int id, AddressBookDTO addressBookDTO) {
         this.id = id;
         this.firstName = addressBookDTO.getFirstName();
-        this.lastName = getLastName();
-        this.city = getCity();
-        this.state = getState();
-        this.phoneNumber = getPhoneNumber();
+        this.lastName = addressBookDTO.getLastName();
+        this.city = addressBookDTO.getCity();
+        this.state = addressBookDTO.getState();
+        this.phoneNumber = addressBookDTO.getPhoneNumber();
     }
 
 

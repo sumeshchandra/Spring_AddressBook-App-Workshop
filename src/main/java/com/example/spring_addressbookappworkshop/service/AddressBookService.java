@@ -19,7 +19,7 @@ public class AddressBookService implements IAddressBookService {
 
     @Override
     public AddressBookData getAddressBookDataById(int personId) {
-       return addressBookList.get(personId -1);
+       return addressBookList.get(personId);
     }
 
     @Override
