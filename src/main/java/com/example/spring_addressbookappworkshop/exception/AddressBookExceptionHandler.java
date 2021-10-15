@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
 public class AddressBookExceptionHandler {
@@ -17,6 +18,12 @@ public class AddressBookExceptionHandler {
         List<String> errMessage = errorList.stream().map(mapper -> mapper.getDefaultMessage())
                 .collect(Collectors.toList());
         ResponseDTO responseDTO = new ResponseDTO("Request Failed", errMessage);
+        return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AddressBookException.class)
+    public ResponseEntity<ResponseDTO> AddressBookException(AddressBookException exception) {
+        ResponseDTO responseDTO = new ResponseDTO("Exception while processing rest request", exception.getMessage());
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 }

@@ -14,26 +14,26 @@ import javax.validation.constraints.Pattern;
 @Data
 public class AddressBookDTO {
 
-
+    @Pattern(regexp = "^[1-9]$", message = " ID not Valid")
     public int id;
 
     @Pattern(regexp = "^[A-Z]{1}[a-z]{3,}$", message = "firstName is Invalid")
-//    @NotEmpty
+    @NotEmpty
     public String firstName;
 
     @Pattern(regexp = "^[A-Z]{1}[a-z]{3,}$", message = "lastName is Invalid!!! ")
     @NotEmpty
     public String lastName;
 
-    //    @NotEmpty
+    @NotEmpty
     @Pattern(regexp = "^[A-Za-z]{4,}$", message = "Provide correct city name")
     private String city;
 
-    //    @NotEmpty
+    @NotEmpty
     @Pattern(regexp = "^[A-Za-z]{4,}$", message = "Provide correct state name")
     private String state;
 
-    //    @NotEmpty
+    @NotEmpty
     @Pattern(regexp = "^[1-9]{1}[0-9]{9}$", message = "Phone no should be 10 digit")
     public double phoneNumber;
 
