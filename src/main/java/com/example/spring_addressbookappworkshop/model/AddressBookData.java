@@ -2,8 +2,10 @@ package com.example.spring_addressbookappworkshop.model;
 
 import com.example.spring_addressbookappworkshop.dto.AddressBookDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 /**
  * @author Sumesh Jena
@@ -12,10 +14,14 @@ import lombok.Setter;
  */
 
 @Data
-@Getter
-@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "address_book")
 public class AddressBookData {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "addressbook_id")
     private int id;
     private String firstName;
     private String lastName;
@@ -23,9 +29,12 @@ public class AddressBookData {
     private String state;
     private double phoneNumber;
 
+    public AddressBookData(AddressBookDTO addressBookDTO) {
+        this.AddressBookData(addressBookDTO);
+    }
 
-    public AddressBookData(int id, AddressBookDTO addressBookDTO) {
-        this.id = id;
+    public void AddressBookData(AddressBookDTO addressBookDTO) {
+        this.id = id = addressBookDTO.getId();
         this.firstName = addressBookDTO.getFirstName();
         this.lastName = addressBookDTO.getLastName();
         this.city = addressBookDTO.getCity();
