@@ -1,9 +1,11 @@
 package com.example.spring_addressbookappworkshop.service;
 
+import com.example.spring_addressbookappworkshop.constant.Message;
 import com.example.spring_addressbookappworkshop.dto.AddressBookDTO;
 import com.example.spring_addressbookappworkshop.exception.AddressBookException;
 import com.example.spring_addressbookappworkshop.model.AddressBookData;
 import com.example.spring_addressbookappworkshop.repository.AddressBookRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ public class AddressBookService implements IAddressBookService {
 
     @Autowired
     private AddressBookRepository addressBookRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     private List<AddressBookData> addressBookList = new ArrayList<>();
 
@@ -26,7 +30,7 @@ public class AddressBookService implements IAddressBookService {
     @Override
     public AddressBookData getAddressBookDataById(int personId) {
         return addressBookList.stream().filter(list -> list.getId() == personId).findFirst().orElseThrow(()
-                -> new AddressBookException(" Id Not Found"));
+                -> new AddressBookException(Message.ID_NOT_FOUND.getMessage()));
     }
 
     @Override
@@ -39,18 +43,15 @@ public class AddressBookService implements IAddressBookService {
 
     @Override
     public AddressBookData updateData(int personId, AddressBookDTO addressBookDTO) {
-        AddressBookData addressBookData = this.getAddressBookDataById(personId);
-        addressBookData.setFirstName(addressBookDTO.firstName);
-        addressBookData.setFirstName(addressBookDTO.lastName);
-        ;
-        addressBookList.set(personId - 1, addressBookData);
-        return addressBookData;
+        AddressBookData addressBookData = getAddressBookDataById(personId);
+        modelMapper.map(addressBookDTO, addressBookData);
+        return addressBookRepository.save(addressBookData);
     }
 
     @Override
     public AddressBookData deleteDataById(int Id) {
         return addressBookList.stream().filter(list -> list.getId() == Id).findFirst()
-                .orElseThrow(() -> new AddressBookException("Id doesn't Exists "));
+                .orElseThrow(() -> new AddressBookException(Message.ID_NOT_FOUND.getMessage()));
     }
 
 }
